@@ -12,7 +12,7 @@ def logmeanexp_diag(x, device='cuda'):
 
     return logsumexp - torch.log(torch.tensor(num_elem).float()).to(device)
 
-
+# if inf --> then nan
 def logmeanexp_nodiag(x, dim=None, device='cuda'):
     batch_size = x.size(0)
     if dim is None:
@@ -115,8 +115,6 @@ def smile_lower_bound(f, clip=None):
         f_ = torch.clamp(f, -clip, clip)
     else:
         f_ = f
-    z = logmeanexp_nodiag(f_, dim=(0, 1))
-    dv = f.diag().mean() - z
 
     js = js_fgan_lower_bound(f)
 
@@ -162,3 +160,9 @@ def estimate_mutual_information(estimator, x, y, critic_fn,
     elif estimator == 'dv':
         mi = dv_upper_lower_bound(scores)
     return mi
+
+__all__ = [
+    'smile_lower_bound',
+    'logmeanexp_diag',
+    'logmeanexp_nodiag'
+]

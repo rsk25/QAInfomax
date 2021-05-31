@@ -38,6 +38,7 @@ from collections import defaultdict
 
 from .file_utils import cached_path
 
+
 logger = logging.getLogger(__name__)
 
 PRETRAINED_MODEL_ARCHIVE_MAP = {
@@ -842,7 +843,6 @@ class BertForQuestionAnswering(BertPreTrainedModel):
                 rand_idx = np.random.randint(a_fake.size(1))
                 a_enc_fake = a_fake[0, rand_idx, :]
                 local_loss = local_loss + self.local_infomax(a_enc_word.unsqueeze(0), a_enc_fake.unsqueeze(0), a_enc, a_fake, do_summarize=False)
-            
             # Info loss
             info_loss = (0.5 * global_loss + local_loss) / len(ans_enc)
             info_loss = 0.25 * info_loss
